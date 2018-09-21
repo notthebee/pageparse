@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import urllib.request
 import nltk
 import enchant
+from matplotlib import pyplot as plt
 from nltk.corpus import stopwords
 import argparse
 import re
@@ -24,9 +25,16 @@ class color:
 # Arguments
 ap = argparse.ArgumentParser(description=color.GREEN + 'A small script that scrapes a webpage and displays a graph of the most used words' + color.END)
 requiredNamed = ap.add_argument_group('required arguments')
-requiredNamed.add_argument("-u", "--url", required=True, help="URL of the page, for example: https://en.wikipedia.org/wiki/Python_(programming_language)")
-ap.add_argument("-l", "--lang", required=False, default="english", help="Language of the webpage (english, french, russian, spanish, german, italian, portugese). Requires optional dependencies to be installed. Defaults to English")
-ap.add_argument("-e", "--exclude", required=False, help='Exclude words from the graph, divided by spaces. For example: "lorem ipsum dolor sit amet"')
+requiredNamed.add_argument("-u", "--url", 
+                           required=True, 
+                           help="URL of the page, for example: https://en.wikipedia.org/wiki/Python_(programming_language)")
+ap.add_argument("-l", "--lang", 
+                required=False, 
+                default="english", 
+                help="Language of the webpage (english, french, russian, spanish, german, italian, portugese). Requires optional dependencies to be installed. Defaults to English")
+ap.add_argument("-e", "--exclude", 
+                required=False, 
+                help='Exclude words from the graph, divided by spaces. For example: "lorem ipsum dolor sit amet"')
 args=vars(ap.parse_args())
 
 # Checking if the URL is valid
@@ -83,9 +91,11 @@ if args["exclude"]:
 else:
     words = [word for word in correct_words]
 
-
-freq = nltk.FreqDist(words)
-for key,val in freq.items():
-    print (str(key) + ':' + str(val))
-freq.plot(20, cumulative = False)
+# Displaying the plot
+freq = nltk.FreqDist(words).copy()
+freq.plot(20, 
+          cumulative=False, 
+          title='Frequency plot for ' + url, 
+          linewidth=2,
+          color='red')
 
