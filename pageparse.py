@@ -24,10 +24,10 @@ class color:
 
 # Arguments
 ap = argparse.ArgumentParser(description=color.GREEN + 'A small script that scrapes a webpage and displays a graph of the most used words' + color.END)
-requiredNamed = ap.add_argument_group('required arguments')
-requiredNamed.add_argument("-u", "--url", 
-                           required=True, 
-                           help="URL of the page, for example: https://en.wikipedia.org/wiki/Python_(programming_language)")
+req = ap.add_argument_group('required arguments')
+req.add_argument("-u", "--url", 
+                required=True, 
+                help="URL of the page, for example: https://en.wikipedia.org/wiki/Python_(programming_language)")
 ap.add_argument("-l", "--lang", 
                 required=False, 
                 default="english", 
