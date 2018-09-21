@@ -31,7 +31,7 @@ req.add_argument("-u", "--url",
 ap.add_argument("-l", "--lang", 
                 required=False, 
                 default="english", 
-                help="Language of the webpage (english, french, russian, spanish, german, italian, portugese). Requires optional dependencies to be installed. Defaults to English")
+                help="Language of the webpage (english, french, russian, spanish, german, italian, portuguese). Requires optional dependencies to be installed. Defaults to English")
 ap.add_argument("-e", "--exclude", 
                 required=False, 
                 help='Exclude words from the graph, divided by spaces. For example: "lorem ipsum dolor sit amet"')
@@ -44,9 +44,9 @@ if not args["url"].startswith("http"):
 url = args["url"]
 
 # Checking if the language is valid
-valid_languages=("english", "french", "russian", "spanish", "german", "italian", "portugese")
+valid_languages=("english", "french", "russian", "spanish", "german", "italian", "portuguese")
 if not args["lang"] in valid_languages:
-    print("ERROR: Invalid language. Supported options: english, french, russian, spanish, german, italian, portugese")
+    print("ERROR: Invalid language. Supported options: english, french, russian, spanish, german, italian, portuguese")
     sys.exit(1)
 lang = args["lang"]
 
@@ -78,7 +78,7 @@ elif lang == 'german':
     langshort = 'de'
 elif lang == 'spanish':
     langshort = 'es'
-elif lang == 'portugese':
+elif lang == 'portuguese':
     langshort == 'pt'
 d = enchant.Dict(langshort)
 correct_words = []
