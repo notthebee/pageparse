@@ -1,11 +1,11 @@
 #! /bin/python3
 
 from bs4 import BeautifulSoup
+from sw import stopwordList
 import urllib.request
 import nltk
 import enchant
 from matplotlib import pyplot as plt
-from nltk.corpus import stopwords
 import argparse
 import re
 import sys
@@ -41,14 +41,14 @@ args=vars(ap.parse_args())
 if not args["url"].startswith("http"):
     print("ERROR: Invalid URL (don't forget 'http://' or 'https://')")
     sys.exit(1)
-else: url = args["url"]
+url = args["url"]
 
 # Checking if the language is valid
 valid_languages=("english", "french", "russian", "spanish", "german", "italian", "portugese")
 if not args["lang"] in valid_languages:
     print("ERROR: Invalid language. Supported options: english, french, russian, spanish, german, italian, portugese")
     sys.exit(1)
-else: lang = args["lang"]
+lang = args["lang"]
 
 # Scraping the page
 req = urllib.request.Request(url, headers={'User-Agent' : "Magic Browser"})
@@ -64,14 +64,15 @@ tokens = [t for t in text.split()]
 clean_tokens = tokens[:]
 
 # Removing stop words (the, a, an, etc.) and non-alphabetic characters
-sr = stopwords.words(lang)
-for token in tokens:
-    if token in sr:
-        clean_tokens.remove(token)
 words = [word.lower() for word in clean_tokens if word.isalpha()]
+sr=stopwordList(stoplang=lang)
+clean_words = []
+for word in words:
+    if not word in sr:
+        clean_words.append(word)
 
 # Removing "non-words"
-if lang == 'english' or 'french' or 'italian' or 'russian':
+if lang in ['english', 'french', 'italian', 'russian']:
     langshort = lang[:2]
 elif lang == 'german':
     langshort = 'de'
@@ -81,7 +82,7 @@ elif lang == 'portugese':
     langshort == 'pt'
 d = enchant.Dict(langshort)
 correct_words = []
-for word in words:
+for word in clean_words:
 	if d.check(word):
 		correct_words.append(word)
 # Also excluding the words if specified by the user
@@ -98,4 +99,3 @@ freq.plot(20,
           title='Frequency plot for ' + url, 
           linewidth=2,
           color='red')
-
