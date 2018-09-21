@@ -1,9 +1,8 @@
 ## pageparse.py
-
-![Screenshot](screenshot.png)  
 A small script that scrapes a webpage and displays a graph of the most used words  
+![Screenshot](screenshot.png)  
 
-usage: `pageparse.py [-h] -u URL [-l LANG] [-e EXCLUDE]`
+usage: `pageparse.py [-h] -u URL [-l LANG] [-e EXCLUDE]`  
 
 ### optional arguments:  
 * `-h, --help`  
