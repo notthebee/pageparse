@@ -1,7 +1,8 @@
 ## pageparse.py
 A small script that scrapes a webpage and displays a graph of the most used words  
+  
 ![Screenshot](screenshot.png)  
-
+  
 ### dependencies:
 * BeautifulSoup
 * urllib
