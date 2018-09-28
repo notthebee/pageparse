@@ -11,25 +11,21 @@ import re
 import sys
 
 class color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
    GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
    END = '\033[0m'
+valid_languages=("english", "french", "russian", "spanish", "german", "italian", "portuguese")
 
 # Arguments
-ap = argparse.ArgumentParser(description=color.GREEN + 'A small script that scrapes a webpage and displays a graph of the most used words' + color.END)
+ap = argparse.ArgumentParser(description=color.GREEN + 
+'A small script that scrapes a webpage and displays a graph of the most used words' + color.END)
 ap.add_argument("url", 
                 help="URL of the page, for example: https://en.wikipedia.org/)" or "fsf.org")
 ap.add_argument("-l", "--lang", 
                 required=False, 
                 default="english", 
-                help="Language of the webpage (english, french, russian, spanish, german, italian, portuguese). Requires optional dependencies to be installed. Defaults to English")
+                help="Language of the webpage. Supported languages: " +
+                str(valid_languages)[1:-1] +
+                ". Requires optional dependencies to be installed. Defaults to English")
 ap.add_argument("-w", "--wordnum",
 				required=False,
 				type=int,
@@ -41,7 +37,8 @@ ap.add_argument("-n", "--nospellcheck",
                 help="Turn off spellchecking")
 ap.add_argument("-e", "--exclude", 
                 required=False, 
-                help='Exclude words from the graph, divided by spaces. For example: "lorem ipsum dolor sit amet"')
+                help='Exclude words from the graph, divided by spaces.' + 
+                ' For example: "lorem ipsum dolor sit amet"')
 args=vars(ap.parse_args())
 
 # Appending http:// to the URL in case not specified by the user
@@ -51,9 +48,9 @@ if not url.startswith("http"):
 
 # Checking if the language is valid
 lang = args["lang"]
-valid_languages=("english", "french", "russian", "spanish", "german", "italian", "portuguese")
 if not args["lang"] in valid_languages:
-    print("ERROR: Invalid language. Supported options: english, french, russian, spanish, german, italian, portuguese")
+    print("ERROR: Invalid language. Supported options: " +
+          str(valid_languages)[1:-1])
     sys.exit(1)
 
 # Scraping the page
@@ -106,6 +103,7 @@ else:
 
 # Displaying the plot
 freq = nltk.FreqDist(words).copy()
+print(freq)
 freq.plot(args["wordnum"], 
           cumulative=False, 
           title='Frequency plot for ' + url, 
